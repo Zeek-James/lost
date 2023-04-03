@@ -11,7 +11,7 @@ export const Layout = ({ children, title }: LayoutProps) => {
   return (
     <>
       <Head>
-        <title>Kapp | {title && title}</title>
+        <title>{`Kapp  |  ${title}`}</title>
         <meta name="description" content={title} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />

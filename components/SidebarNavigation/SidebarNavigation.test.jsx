@@ -23,6 +23,12 @@ describe("sidebar navigation", () => {
 });
 
 describe("Sidebar component", () => {
+  it("renders the logo", () => {
+    const { getByTestId } = render(<SidebarNavigation />);
+    const logo = getByTestId("logo");
+    expect(logo).toBeInTheDocument();
+  });
+
   it("renders list of links with active link highlighted", () => {
     // Set up mock router object
     const mockRouter = {
@@ -35,12 +41,12 @@ describe("Sidebar component", () => {
     const menuLink = screen.getAllByRole("menu-item");
     // Assert that the "About" link is active
     expect(menuLink[0]).toHaveClass(
-      "px-2 py-3 flex items-center mt-1 rounded-md bg-slate-50"
+      "md:px-2 p-1 md:py-3 flex items-center mt-1 rounded-md bg-slate-50 false"
     );
 
     // Assert that the other links are not active
     expect(menuLink[1]).not.toHaveClass(
-      "px-2 py-3 flex items-center mt-1 rounded-md bg-slate-50"
+      "md:px-2 p-1 md:py-3 flex items-center mt-1 rounded-md bg-slate-50 false"
     );
   });
 });

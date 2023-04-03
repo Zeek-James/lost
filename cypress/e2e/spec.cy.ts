@@ -19,4 +19,14 @@ describe("Note Taking App", () => {
   });
 });
 
+describe("NotesListsPage", () => {
+  beforeEach(() => {
+    cy.visit("http://localhost:3000/note-list");
+  });
+
+  it("displays the page title", () => {
+    cy.get("h1[data-testid='heading']").should("contain", "Notes");
+  });
+});
+
 export {};

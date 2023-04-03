@@ -1,22 +1,35 @@
-// import { Store } from "../utils/Store";
-// import { Note } from "@/types";
-import { useState } from "react";
-// import React, { useContext, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
+import { NoteProps } from "@/types";
+
+interface NotePadProps {
+  editingNote: NoteProps | null;
+  handleSaveNote: (data: NoteProps, type: string) => Promise<void>;
+  editing: boolean;
+  setEditing: Dispatch<SetStateAction<boolean>>;
+}
 
 const characterLimit = 400;
 const titleLimit = 50;
 
-export function NotePad({ handleSaveNote }) {
-  // const { dispatch } = useContext(Store);
-
-  const [editNote, setEditNote] = useState(null);
+export function NotePad({ editingNote, handleSaveNote }: NotePadProps) {
+  const [editNote, setEditNote] = useState<NoteProps | null>(null);
   const [newNote, setNewNote] = useState({
     id: 0,
     title: "",
     content: "",
   });
 
-  const handleTitle = (event) => {
+  useEffect(() => {
+    setEditNote(editingNote);
+  }, [editingNote]);
+
+  const handleTitle = (event: ChangeEvent<HTMLInputElement>) => {
     if (titleLimit - event.target.value.length >= 0) {
       editNote
         ? setEditNote({ ...editNote, title: event.target.value })
@@ -24,7 +37,7 @@ export function NotePad({ handleSaveNote }) {
     }
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     if (characterLimit - event.target.value.length >= 0) {
       editNote
         ? setEditNote({ ...editNote, content: event.target.value })
@@ -33,17 +46,15 @@ export function NotePad({ handleSaveNote }) {
   };
 
   const handleSaveClick = () => {
-    if (newNote.content.trim().length > 0) {
-      if (editNote) {
-        handleSaveNote(editNote, "edit");
-        setEditNote(null);
-      } else {
-        handleSaveNote(newNote);
-      }
+    if (editNote && editNote.content.trim().length > 0) {
+      handleSaveNote(editNote, "edit");
+      setEditNote(null);
+    } else if (newNote.content.trim().length > 0) {
+      handleSaveNote(newNote, "");
       setNewNote({ id: 0, title: "", content: "" });
-      return;
+    } else {
+      alert("Add a note please");
     }
-    alert("Add a note please");
   };
 
   return (

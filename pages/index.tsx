@@ -1,17 +1,6 @@
-import prisma from "@/lib/prisma";
 import { Layout } from "@/components/Layout";
 
-export async function getServerSideProps() {
-  const users = await prisma.note.findMany();
-  return {
-    props: { initialUsers: users },
-  };
-  // return { props: { jhon: "" } };
-}
-
-export default function Home(props) {
-  console.log(props);
-
+export default function Home() {
   return (
     <Layout title="My Note Taking App">
       <div className=" bg-slate-100 w-full h-full padding">
